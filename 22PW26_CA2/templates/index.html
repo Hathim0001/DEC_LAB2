@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meteostat Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Meteostat Data</h1>
+    <form method="post">
+        <label for="name">Select Data Type:</label>
+        <select name="name" id="name">
+            <option value="monthly">Monthly</option>
+            <option value="hourly">Hourly</option>
+            <option value="daily">Daily</option>
+            <option value="station_climate">Station Climate</option>
+            <option value="station_meta">Station Meta Data</option>
+            <option value="nearby_stations">Nearby Stations</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if data %}
+        <h2>Data:</h2>
+        <!--<pre>{{ data | tojson(indent=4) }}</pre>-->
+
+        {% if 'data' in data %}
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Temperature</th>
+                    <th>Precipitation</th>
+                    <th>Month</th>
+                    <th>Time Zone</th>
+                    <th>Region</th>
+
+                </tr>
+                {% for item in data['data'] %}
+                    <tr>
+                        <td>{{ item['date'] }}</td>
+                        <td>{{ item['tavg'] }}</td>
+                        <td>{{ item['prcp'] }}</td>
+                        <td>{{ item['month'] }}</td>
+                        <td>{{ item['timezone'] }}</td>
+                        <td>{{ item['name'['en']] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
